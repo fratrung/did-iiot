@@ -46,13 +46,14 @@ The DID-IIoT method autonomously generates a **DID URI** and its corresponding *
 3. **Constructing the DID URI**: The DID URI follows the format:
 
     ```
-    did:iiot:{network_namespace}:{uuid-v4}
-    ```
-
-    **Example:**
-
-    ```
+    
     did:iiot:93865a36-e510-4d21-a09a-8575057a883f
+    ```
+
+    **Example with network namespace :**
+
+    ```
+    did:iiot:internal.network:93865a36-e510-4d21-a09a-8575057a883f
     ```
 
 ### DID Document
