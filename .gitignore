@@ -1,0 +1,16 @@
+# File compilati
+*.pyc
+__pycache__/
+
+test.py
+example.py
+
+
+# Configurazioni locali
+env/
+
+
+# File generati da IDE/editor
+*.idea/
+*.vscode/
+*.swp
