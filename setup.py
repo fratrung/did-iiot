@@ -11,7 +11,6 @@ setup(
     license="MIT",
     url="https://github.com/fratrung/did-iiot",
     packages=find_packages(),
-    install_requires=open("requirements.txt").readlines(),
     classifiers=[
       "Development Status :: 5 - Production/Stable",
       "Intended Audience :: Developers",
