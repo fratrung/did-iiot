@@ -3,7 +3,6 @@ import did_iiot
 
 setup(
     name="did_iiot",
-    version=did_iiot.__version__,
     description="DID-IIoT is a Decentralized Identifier (DID) method specifically designed for Industrial Internet of Things (IIoT) environments",
     long_description=open("README.md", encoding='utf-8').read(),
     long_description_content_type='text/markdown',
