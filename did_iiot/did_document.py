@@ -40,7 +40,7 @@ class VerificationMethod(DIDDocumentProperty):
         method = {
             "id": self.id,
             "type": self.type,
-            "publicJwKey": self.public_jwkey.get_dict(),
+            "publicKeyJwK": self.public_jwkey.get_dict(),
         }
         if self.controller:
             method["controller"] = self.controller
