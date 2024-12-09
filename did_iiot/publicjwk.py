@@ -81,7 +81,7 @@ class DilithiumPublicJwkey(PublicJwKey):
         self.kty = "MLWE"
         
     def _validate_security_level(self,security_level):
-        if int(security_level) in DILITHIUM_SECUIRTY_LEVEL.keys:
+        if int(security_level) in DILITHIUM_SECUIRTY_LEVEL.keys():
             return DILITHIUM_SECUIRTY_LEVEL[security_level]
         else:
            return None
