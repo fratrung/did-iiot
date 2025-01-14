@@ -104,7 +104,7 @@ To integrate DID-IIoT into your Industrial IoT environment, follow these steps:
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/did-iiot.git
+    git clone https://github.com/fratrung/did-iiot.git
     ```
 
 2. **Navigate to the Project Directory**
