@@ -106,7 +106,7 @@ class KyberPublicJwkey(PublicJwKey):
         self.lat = lat
         self.x = x
                     
-    def _validate_lat(lat):
+    def _validate_lat(self,lat):
         if lat in KYBER_LAT:
             return True
         return False

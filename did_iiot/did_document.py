@@ -57,9 +57,13 @@ class Service(DIDDocumentProperty):
             self.service_endpoint = service_endpoint
     
     def get_dict(self):
+        if isinstance(self.type, ServiceType):
+            type_value = self.type.value
+        else:
+            type_value = self.type
         return {
             "id": self.id,
-            "type":self.type.value,
+            "type":type_value,
             "serviceEndpoint": self.service_endpoint
         }
     
