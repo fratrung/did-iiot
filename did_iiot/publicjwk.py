@@ -13,7 +13,7 @@ DILITHIUM_SECUIRTY_LEVEL = {
     5:"CRYD5"   
 }
 
-class Ed25519PubliJwkey(PublicJwKey):
+class Ed25519PublicJwkey(PublicJwKey):
     def __init__(self,x,kid=None,alg=None,use=None):
         self.x = x
         self.kty = "OKP"

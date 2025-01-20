@@ -32,7 +32,7 @@ This method is still **in progress**, and its design and features may evolve to 
 - **W3C Compliance**: Adheres to the W3C DID Core specification for interoperability.
 - **Security**: Supports public keys, service endpoints, and digital signatures for secure updates and key rotations.
 - **Scalability**: Designed to handle large-scale industrial deployments with numerous devices.
-- **Flexibility**: Suitable for internal and private network environments, independent of external infrastructures.
+- **Support Post-Quantum Cryptography**: Supports Dilithium and Kyber algorithms
 
 ## How It Works
 
