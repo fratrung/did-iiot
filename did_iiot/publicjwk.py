@@ -1,4 +1,4 @@
-from did_iiot.did_document import PublicJwKey
+from .did_document import PublicJwKey
 
 
 KYBER_LAT = [
