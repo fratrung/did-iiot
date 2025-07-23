@@ -70,12 +70,14 @@ class Service(DIDDocumentProperty):
 
 class DIDDocument():
     
-    def __init__(self,
+    def __init__(
+                self,
                 id: str,
                 verification_methods: List[VerificationMethod],
                 authentication: Optional[List[Union[str, VerificationMethod]]] = None,
                 assertion_method: Optional[List[Union[str, VerificationMethod]]] = None,
-                service: Optional[List[Service]] = None,):
+                service: Optional[List[Service]] = None,
+                ):
         self.id = id
         self.verification_methods = verification_methods
         self.authentication = authentication or [verification_methods[0].id]
