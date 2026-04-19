@@ -1,8 +1,10 @@
-# DID-IIoT: Decentralized Identifier Method for Industrial IoT
+# Decentralized Identifier Method for Industrial IoT (did:iiot)
 
-DID-IIoT is a **Decentralized Identifier (DID) method** specifically designed for **Industrial Internet of Things (IIoT)** environments. Tailored for **private and internal networks**, this method ensures flexibility and independence from the underlying ledger technology, allowing the use of various registries such as Distributed Hash Tables (DHT), blockchain, web servers, or centralized registries.
+A **Decentralized Identifier (DID) method** specifically designed for **Industrial Internet of Things (IIoT)** environments. Tailored for private and internal networks, `did:iiot` is ledger-agnostic and can be deployed over Distributed Hash Tables (DHT), blockchain, web servers, or centralized registries.
 
-> **Note**: This method is still under active development and open to modifications. Contributions and feedback are highly encouraged to refine and enhance the DID-IIoT standard.
+> **Note**: This method is under active development. Contributions and feedback are welcome and encouraged.
+
+-----
 
 ## Table of Contents
 
@@ -20,178 +22,181 @@ DID-IIoT is a **Decentralized Identifier (DID) method** specifically designed fo
 - [Contributing](#contributing)
 - [License](#license)
 
+-----
+
 ## Introduction
 
-The **DID-IIoT** method provides a flexible framework for generating and managing **Decentralized Identifiers** in industrial IoT networks. By leveraging **UUID version 4** for unique identifier generation and adhering to the **W3C DID Core specification**, DID-IIoT aims to deliver secure, scalable, and interoperable identity management. 
+`did:iiot` provides a flexible framework for generating and managing Decentralized Identifiers in industrial IoT networks. By leveraging **UUID v4** for unique identifier generation and adhering to the **W3C DID Core specification**, this method delivers secure, scalable, and interoperable identity management for constrained and distributed industrial environments.
 
-This method is still **in progress**, and its design and features may evolve to better address the needs of Industrial IoT applications. Your feedback and contributions are essential to shaping this method.
+-----
 
 ## Features
 
-- **Ledger Agnostic**: Compatible with various ledger types, including DHT, blockchain, web servers, and centralized registries.
-- **W3C Compliance**: Adheres to the W3C DID Core specification for interoperability.
-- **Security**: Supports public keys, service endpoints, and digital signatures for secure updates and key rotations.
-- **Scalability**: Designed to handle large-scale industrial deployments with numerous devices.
-- **Support Post-Quantum Cryptography**: Supports Dilithium and Kyber algorithms
+- **Ledger Agnostic** — compatible with DHT, blockchain, web servers, and centralized registries
+- **W3C DID Core Compliant** — fully aligned with the W3C specification for broad interoperability
+- **Post-Quantum Cryptography** — native support for Dilithium (signatures) and Kyber (key encapsulation)
+- **Secure Identity Lifecycle** — supports creation, resolution, update, key rotation, and revocation
+- **Industrial Scale** — designed to handle large deployments with many concurrent devices
+
+-----
 
 ## How It Works
 
 ### Create DID
 
-The DID-IIoT method autonomously generates a **DID URI** and its corresponding **DID Document**. This process involves:
+The `did:iiot` method autonomously generates a DID URI and its corresponding DID Document through the following steps:
 
+1. **UUID v4 Generation** — each DID is derived from a UUID v4 to guarantee global uniqueness
+1. **Optional Network Namespace** — a namespace can be specified to categorize the DID within a specific industrial network segment
+1. **DID URI Construction** — the resulting URI follows this format:
 
-1. **Generating a UUID Version 4**: Each DID is created using a UUID version 4 to ensure uniqueness.
-2. **Specifying the Network Namespace (optionally)**: The network namespace categorizes the DID within the industrial IoT environment.
-3. **Constructing the DID URI**: The DID URI follows the format:
+```
+did:iiot:93865a36-e510-4d21-a09a-8575057a883f
+```
 
-    ```
-    did:iiot:93865a36-e510-4d21-a09a-8575057a883f
-    ```
+With an optional network namespace:
 
-    **Example with network namespace :**
+```
+did:iiot:internal.network:93865a36-e510-4d21-a09a-8575057a883f
+```
 
-    ```
-    did:iiot:internal.network:93865a36-e510-4d21-a09a-8575057a883f
-    ```
+-----
 
 ### DID Document
 
-The **DID Document** complies with the **W3C DID Core specification** and includes:
+The DID Document is W3C DID Core compliant and includes:
 
-- **Public Keys**: For authentication and verification.
-- **Service Endpoints**: To facilitate interactions and service discovery.
-- **Metadata**: Optional information to enhance functionality.
+- **Verification Methods** — public keys for authentication and signature verification
+- **Service Endpoints** — for service discovery and device interaction
+- **Metadata** — optional fields to extend functionality
 
-These components enable secure authentication, efficient service discovery, and compatibility with decentralized identity standards.
+-----
 
 ### DID Resolution
 
-The **DID resolution** process depends on the network's configuration. It retrieves the DID Document from the chosen registry (DHT, blockchain, web server, etc.) to resolve the DID to its associated metadata and service endpoints.
+Resolution retrieves the DID Document from the configured registry (DHT, blockchain, web server, etc.) and returns the associated metadata and service endpoints. The resolution process is registry-dependent and can be adapted to the network’s infrastructure.
+
+-----
 
 ### Update DID
 
 Updating a DID Document involves:
 
-1. **Overwriting the Existing Document**: Replacing the current document with an updated version.
-2. **Digital Signature**: Each update must be digitally signed using the entity's private key to ensure authenticity and integrity.
-3. **Signature Verification**: The update is verified by checking the signature against the public key (`k0`) in the existing DID Document.
+1. Replacing the existing document with an updated version
+1. Signing the update with the entity’s private key
+1. Verifying the signature against the public key (`k0`) stored in the current DID Document
+
+-----
 
 ### Key Rotation
 
-Key rotation is managed through the DID Document update mechanism:
+Key rotation is handled through the update mechanism:
 
-1. **Replace the Existing Key**: Update the old public key (`k0`) with a new one.
-2. **Sign the Update**: Use the private key corresponding to the previous public key to sign the update.
-3. **Prevent Replay Attacks**: Implement safeguards like version counters, timestamps, unique nonces, or hashes of the previous state to ensure updates are secure and verifiable.
+1. Replace the existing public key (`k0`) with a new one
+1. Sign the update using the private key corresponding to the previous public key
+1. Protect against replay attacks using version counters, timestamps, nonces, or a hash of the previous state
 
-In immutable registries like blockchain, the registry's inherent properties enhance the key rotation process.
+In immutable registries such as blockchain, the registry’s inherent ordering and immutability properties provide additional protection.
+
+-----
 
 ### Revoke DID
 
-Revoking a DID ensures it is no longer usable. Depending on the registry's capabilities, this can be done in one of two ways:
+Revocation behavior depends on the registry’s capabilities:
 
-1. **Permanent Removal**: If the registry supports it, the DID Document is completely removed, rendering the DID inaccessible and unusable.
+- **Permanent Removal** — if the registry supports deletion, the DID Document is removed entirely, rendering the DID inaccessible
+- **Deactivation** — if deletion is not supported, the DID Document is replaced with a version explicitly marked as `Deactivated`, preserving its existence while preventing further use
 
-2. **Deactivation**: If removal is not supported, the DID Document is replaced with a version marked as `'Deactivated'`. This ensures the DID remains inactive while preserving its existence in the registry.
+This dual approach ensures revocation is possible in both mutable and immutable registry environments.
 
-This method provides flexibility, allowing for revocation in environments with either mutable or immutable registries.
+-----
 
 ## Installation
 
-To integrate DID-IIoT into your Industrial IoT environment, follow these steps:
+```bash
+git clone https://github.com/fratrung/did-iiot.git
+cd did-iiot
+pip install -r requirements.txt
+```
 
-1. **Clone the Repository**
+Requires Python 3.6 or later.
 
-    ```bash
-    git clone https://github.com/fratrung/did-iiot.git
-    ```
-
-2. **Navigate to the Project Directory**
-
-    ```bash
-    cd did-iiot
-    ```
-
-3. **Install Dependencies**
-
-    Ensure you have Python 3.6+ installed, then install the required packages:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
+-----
 
 ## Usage
 
-### Creating a DID
-
-Use the provided Python module to generate a new DID:
+### Generate a DID URI
 
 ```python
 from did_iiot import DIDIndustrialIoT
 
-# Create a new DID with a specified network namespace
 did = DIDIndustrialIoT.generate_did_uri()
-
-print("Generated did:iiot uri: ", did)
+print("Generated DID:", did)
 ```
-### Example: Create DID and DID Document with Ed25519
+
+-----
+
+### Create a DID and DID Document with Ed25519
 
 ```python
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.primitives import serialization
 import base64
+
 from did_iiot.did_iiot import DIDIndustrialIoT
 from did_iiot.did_document import DIDDocument, VerificationMethod
 from did_iiot.publicjwk import Ed25519PubliJwkey
 
-# Generate a new Ed25519 private key and corresponding public key
+# Generate Ed25519 key pair
 private_key = ed25519.Ed25519PrivateKey.generate()
 public_key = private_key.public_key()
 
-# Serialize the private key in PEM format
+# Serialize keys
 private_key_bytes = private_key.private_bytes(
     encoding=serialization.Encoding.PEM,
     format=serialization.PrivateFormat.TraditionalOpenSSL,
     encryption_algorithm=serialization.NoEncryption()
 )
-
-# Serialize the public key in Raw format
 public_key_bytes = public_key.public_bytes(
     encoding=serialization.Encoding.Raw,
     format=serialization.PublicFormat.Raw
 )
 
-# Convert the public key to base64url for use in a JWK
+# Encode public key as base64url for JWK
 public_key_base64url = base64.urlsafe_b64encode(public_key_bytes).decode('utf-8').rstrip("=")
 
-# Create a public JWK from the base64url encoded public key
-pub_key = Ed25519PubliJwkey(public_key_base64url)
+# Build the verification method
+pub_jwk = Ed25519PubliJwkey(public_key_base64url)
+ver_method = VerificationMethod("k0", "JsonWebKey2020", pub_jwk)
 
-# Create a VerificationMethod using the public key
-ver_method = VerificationMethod("k0", "JsonWebKey2020", pub_key)
-
-# List of verification methods (could be extended with multiple methods)
-verification_methods = []
-verification_methods.append(ver_method)
-
-# Generate a DID URI using the DIDIndustrialIoT method
+# Generate DID and create the DID Document
 did = DIDIndustrialIoT.generate_did_uri()
+did_document = DIDDocument(did, [ver_method])
 
-# Create the DID Document
-did_document = DIDDocument(did, verification_methods)
-
-# Print the DID Document in JSON format
 print(did_document.to_json())
 ```
-### Update DID Example
-```python
 
+-----
+
+### Add a Service Endpoint
+
+```python
 from did_iiot.did_document import Service, ServiceType
-service = Service(id=f"{did}#service-1",type=ServiceType.DecentralizedWebNode,service_endpoint="127.0.0.1:8080")
+
+service = Service(
+    id=f"{did}#service-1",
+    type=ServiceType.DecentralizedWebNode,
+    service_endpoint="127.0.0.1:8080"
+)
 
 did_document.add_service(service)
-
 print(did_document.to_json())
-
 ```
+
+-----
+
+## Related Projects
+
+- [did-iiot-dht](https://github.com/fratrung/did-iiot-dht) — framework for building post-quantum SSI systems using `did:iiot` and a custom DHT
+- [AuthKademlia](https://github.com/fratrung/AuthKademlia) — custom DHT acting as a Verifiable Data Registry for DID Documents
+- [ICS_Cyber_Range](https://github.com/fratrung/ICS_Cyber_Range) — proof-of-concept IIoT deployment integrating `did:iiot`
